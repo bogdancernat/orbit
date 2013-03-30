@@ -1,0 +1,45 @@
+@import url(http://fonts.googleapis.com/css?family=Titillium+Web);
+body{
+  background: #BADA55;
+  font-family: 'Titillium Web',sans-serif;
+}
+#canvas{
+  margin:30px auto;
+  display: block;
+  background:#647383;
+}
+#options{
+  height:30px;
+  min-width:300px;
+  position:absolute;
+  top:0;
+  left:50%;
+  margin-left:-400px;
+}
+.option{
+  float:left;
+  height:26px;
+  width: auto;
+  padding: 0 5px;
+  margin-top:2px;
+  margin-left:5px;
+  line-height: 26px;
+  text-align: center;
+  text-shadow: 0px 0px 3px #556270;
+  background:blue;
+  border-radius: 4px;
+  box-shadow: 0px 0px 2px #000000;
+  background-image: -webkit-linear-gradient(top, #bababa, #8795a4);
+  background-image: -moz-linear-gradient(top, #bababa, #8795a4);
+  background-image: linear-gradient(top, #bababa, #8795a4);
+  background-clip: padding-box;
+  cursor:pointer;
+}
+.option:hover{
+  background-image: -webkit-linear-gradient(top, #8795a4, #bababa);
+  background-image: -moz-linear-gradient(top, #8795a4, #bababa);
+  background-image: linear-gradient(top, #8795a4, #bababa);
+}
+.option:first-child{
+  margin-left:15px;
+}
