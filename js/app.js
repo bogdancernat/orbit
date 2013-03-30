@@ -1,6 +1,6 @@
 var orbit = {
   circles: [],
-  mousePosition: {x:110,y:110},
+  mousePosition: {x:0,y:0},
   needToClean: false,
   getRadians:  function (angle) {
     return angle * Math.PI/180;
