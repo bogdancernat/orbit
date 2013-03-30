@@ -2,6 +2,8 @@ var orbit = {
   circles: [],
   mousePosition: {x:110,y:110},
   needToClean: false,
+  boom: 0,
+  wtfColors: 0,
   getRadians:  function (angle) {
     return angle * Math.PI/180;
   },
@@ -21,15 +23,27 @@ var orbit = {
     })();
     this.canvas = document.querySelector("#canvas");
     this.context = this.canvas.getContext("2d");
-    this.canvas.addEventListener("click", this.addCircle);
+    this.canvas.addEventListener("mousedown", function(){
+      orbit.boom = 150;
+    });
+    this.canvas.addEventListener("mouseup",function(){
+      orbit.boom = 0;
+    });
     this.canvas.addEventListener("mousemove",this.updateMousePosition);
     this.clearButton = document.querySelector("#clear");
     this.clearButton.addEventListener("click",this.clearCanvas);
+    this.addButton = document.querySelector("#more");
+    this.addButton.addEventListener("click",this.addCircle);
+    this.chmodButton = document.querySelector("#chmod");
+    this.chmodButton.addEventListener("click",function(){
+      orbit.wtfColors = (orbit.wtfColors + 1)%2;
+    });
   },
   clearCanvas: function (){
     if(!this.needToClean){
       this.needToClean = true;
     }
+    orbit.circles = [];
   },
   updateMousePosition: function (e){
     var pos = orbit.getElemPosition(orbit.canvas);
@@ -38,7 +52,7 @@ var orbit = {
   },
   getElemPosition: function (e) {
     function getNumericStyleProperty(style, prop){
-        return parseInt(style.getPropertyValue(prop),10) ;
+      return parseInt(style.getPropertyValue(prop),10) ;
     }
     var x = 0, y = 0;
     var inner = true ;
@@ -73,8 +87,8 @@ var orbit = {
     for (var i = 0; i < this.circles.length; i++) {
       this.context.beginPath();
       this.context.fillStyle = 'rgba('+this.circles[i].red+', '+this.circles[i].green+', '+this.circles[i].blue+', '+this.circles[i].alpha+')'; 
-      this.context.arc(this.circles[i].xr + this.mousePosition.x,
-                       this.circles[i].yr + this.mousePosition.y,
+      this.context.arc(this.circles[i].xr + orbit.canvas.width/2,
+                       this.circles[i].yr + orbit.canvas.height/2,
                        this.circles[i].r,
                        0,
                        Math.PI*2,
@@ -99,7 +113,8 @@ var orbit = {
   },
   updateCircles: function(){
     for (var i = 0; i < this.circles.length; i++) {
-      if(this.circles[i].distance - this.circles[i].distModif < 0 || 
+      // this.circles[i].distance = orbit.distAB(this.circles[i].xr,this.circles[i].yr,orbit.mousePosition.x,orbit.mousePosition.y);
+      if(this.circles[i].distance - orbit.boom - this.circles[i].distModif < 0 || 
          this.circles[i].distance - this.circles[i].distModif > 260){
         this.circles[i].distModif *= -1;
       }
@@ -108,13 +123,24 @@ var orbit = {
       this.circles[i].angle = (this.circles[i].angle + this.circles[i].speed) % 360;
       this.circles[i].xr = c.x;
       this.circles[i].yr = c.y;
+      if(orbit.wtfColors == 1){
+        var red = Math.floor(Math.random()*255);
+        var green = Math.floor(Math.random()*255);
+        var blue = Math.floor(Math.random()*255);
+        var alpha = Math.random();
+        this.circles[i].red = red;
+        this.circles[i].green = green;
+        this.circles[i].blue = blue;
+        this.circles[i].alpha = alpha;
+      }
+
       // this.circles[i].speed = Math.sin(new Date().getTime()) * Math.random()*3;
     };
   },
   addCircle: function(){
     // var xPositivity = (Math.floor(Math.random()*10)%2==0) ? 1 : -1;
     // var yPositivity = (Math.floor(Math.random()*10)%2==0) ? 1 : -1;
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 10; i++) {
       var distance = Math.random()*220+40;
       var angle = Math.floor(Math.random()*360);
       var result = orbit.getCoordsDistAngle(angle,distance);
