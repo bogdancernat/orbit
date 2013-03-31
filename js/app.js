@@ -119,6 +119,9 @@ var orbit = {
         this.circles[i].distModif *= -1;
       }
       this.circles[i].distance -= this.circles[i].distModif;
+      if(this.circles[i].r - this.circles[i].distModif/20 > 0 && this.circles[i].r - this.circles[i].distModif/20 < 14){
+        this.circles[i].r -= this.circles[i].distModif/20;
+      }
       var c = orbit.getCoordsDistAngle(this.circles[i].angle,this.circles[i].distance);
       this.circles[i].angle = (this.circles[i].angle + this.circles[i].speed) % 360;
       this.circles[i].xr = c.x;
